@@ -27,5 +27,20 @@ export const deleteOne = (id) => {
     console.log("data : ", data );
     return 1;
 }
+export const register = (user) => {
+    data_set.push(user);
+    return 1;
+}
+export const modify = (user) => {
+    data_set = data_set.map( (item) => item.id === user.id ? user : item );
+
+    // 필터를 통해 DB에 있는 item과
+    // 유저가 입력한 값이 같지 않은 것만 저장해라.
+    // 그러면 나머지 값이 같은 것(유저가 입력한 것과 일치하는 DB의 것)만 수정한다.
+    // data_set = data_set.filter( (item) => item.id !== user.id);
+
+    // data_set = data_set.concat(user);
+    return 1;
+}
 // export {getList , deleteOne , getOne } 이래도 되지만
 // const바로 앞에 직접 작성해줘도 된다.

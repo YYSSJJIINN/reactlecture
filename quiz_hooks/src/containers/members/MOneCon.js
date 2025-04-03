@@ -18,10 +18,13 @@ function MOneCon() {
     const onDelete = (id) => {
         navidate("/member/delete/"+id);
     }
+    const onModify = (id) => {
+        navidate("/member/modify/"+id);
+    }
 
     // 이제 컴포넌트쪽에 data를 보내준다.
     return(<>
-        <MOneCom data={data} onDelete={onDelete}/>
+        <MOneCom data={data} onDelete={onDelete} onModify={onModify}/>
     </>)
 }
 export default MOneCon;
