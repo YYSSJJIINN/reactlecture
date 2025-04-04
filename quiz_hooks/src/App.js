@@ -9,6 +9,7 @@ import MOnePage from './pages/member/MOnePage';
 import NotFound from './components/common/NotFound';
 import MRegPage from './pages/member/MRegPage';
 import MModifyPage from './pages/member/MModifyPage';
+import MLogPage from './pages/member/MLogPage';
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/member/delete/:id" element={<MDeletePage />} />
             <Route path="/member/register" element={<MRegPage />} />
             <Route path="/member/modify/:id" element={<MModifyPage />} />
+            <Route path="/member/login" element={<MLogPage />} />
         </Route>
 
         <Route path="*" element={<NotFound />}/>        
