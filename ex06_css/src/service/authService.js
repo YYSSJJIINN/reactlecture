@@ -8,14 +8,28 @@ let data_set = [
 const path ="http://localhost:8080";
 
 const login = (username, password) => {
-    const result = data_set.filter(data => data.username === username);
-    if ( result.legth !== 0 ) {
-        if (result[0].password === password) {
-            return {status : 200, data : result[0]};
-        }
-        return {status : 401, data : null};
-    }
-    return {status : 404, data : null};
+    // const result = data_set.filter(data => data.username === username);
+    // if ( result.legth !== 0 ) {
+    //     if (result[0].password === password) {
+    //         return {status : 200, data : result[0]};
+    //     }
+    //     return {status : 401, data : null};
+    // }
+    // return {status : 404, data : null};
+
+    // const form = {username, password}
+    // return fetch(path+"/mem/login", {
+    //     method:"post",
+    //     headers:{"Content-Type":"application/json"},
+    //     body:JSON.stringify(form)
+    // });
+    
+    const form = new FormData();
+    form.append("username", username);
+    form.append("password", password);
+    // headers content-type 없으면 multipart 방식
+    return fetch(path+"/mem/login", {method:"post", body:form})
+    
 }
 
 const register = (user) => {

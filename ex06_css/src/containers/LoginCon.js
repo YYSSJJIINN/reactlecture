@@ -19,22 +19,32 @@ function LoginCon() {
     };
     const navigate = useNavigate();
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         // console.log("login onSubmit : ", state.login)
         dispatch({type : "LOADING"});
-        const result = login(state.login.username, state.login.password);
-        dispatch({type : "FINISHED"});
-        if( result.status === 200 ) {
-            // alert("로그인 성공");
-            // 로그인 성공시 홈 화면으로 이동
+        // 백엔드와 연결하며 async를 사용했으므로 await도 붙여준다.
+        const res = await login(state.login.username, state.login.password);
+        // const result = login(state.login.username, state.login.password);
+        console.log("login res : ", res)
+        if( res.ok ) {
             navigate("/")
-            // 로그인 프로바이더가 유저이름을 전달
             loginProvider(state.login.username);
         } else {
-            // alert("로그인 실패");
             dispatch({type : "INITIALSTATE"});
         }
+        // dispatch({type : "FINISHED"});
+        // if( result.status === 200 ) {
+        //     // alert("로그인 성공");
+        //     // 로그인 성공시 홈 화면으로 이동
+        //     navigate("/")
+        //     // 로그인 프로바이더가 유저이름을 전달
+        //     loginProvider(state.login.username);
+        // } else {
+        //     // alert("로그인 실패");
+        //     // 아이디와 비밀번호 초기화
+        //     dispatch({type : "INITIALSTATE"});
+        // }
     }
     return(
     <>
