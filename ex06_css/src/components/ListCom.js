@@ -49,6 +49,7 @@ const DivContent = styled.div`
 
 // 내용들이 {data}에 배열형식으로 들어오므로 반복시켜주면 된다.
 function ListCom({data, onInfo}) {
+    console.log("com data : ", data)
     // {data && data.map ((d, i) =><DivContent key={i}>라고 해도 되는데 
     // 이런 경우에는 리스트에 변화가 거의 없고 고유값이 없는 경우만 권장된다.
     return(

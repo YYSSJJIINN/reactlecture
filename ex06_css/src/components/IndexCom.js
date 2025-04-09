@@ -3,9 +3,9 @@ import { StyleContentBlock, StyleContentWrap } from "./common/StyleContent";
 import { ProductContext, ProductImg, ProductList, ProductListBox, ProductName, ProductPrice, ProductTitle } from "./common/StyleProduct";
 
 const products = [
-    {id : 1, name : "탱이사료", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
-    {id : 2, name : "탱이사료", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
-    {id : 3, name : "탱이사료", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
+    {id : 1, name : "로얄캐닌 - 키튼", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
+    {id : 2, name : "로얄캐닌 - 인도어", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
+    {id : 3, name : "로얄캐닌 - 스킨앤뷰티", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
     {id : 4, name : "탱이사료", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
     {id : 5, name : "탱이사료", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},
     {id : 6, name : "탱이사료", context : "맛있고 건강한 다이어트 사료!! 냥이들의 식사시간~", price : "56500원", url : imageFile},

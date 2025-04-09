@@ -12,12 +12,21 @@ function RegCon() {
         dispatch({type:"CHANGE_INPUT", name, value, form:"register"});
     }
     const navigate = useNavigate();
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         console.log("reg submit : ", state.register)
-        register(state.register)
-        // 회원가입 성공시 로그인 페이지로 이동
-        navigate("/login")
+        const res = await register(state.register)
+        if( res.ok ) {
+            // 단순한 문자열이라 json이 아닌 text사용. 얼러트/모달창이 뜸.
+            // json 사용시 개발자도구에서만 보임
+            alert(await res.text());
+            // res.json();
+            // 회원가입 성공시 로그인 페이지로 이동
+            navigate("/login")
+        } else {
+            alert(await res.text());
+        }
+        console.log("register : ", res)
 
         // try{
         //     dispatch({type:"LOADING"})
