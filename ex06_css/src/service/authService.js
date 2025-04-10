@@ -1,7 +1,7 @@
 let data_set = [
-    {username : "ababa", password : "111", role : "USER"},
-    {username : "bcbcb", password : "111", role : "USER"},
-    {username : "cacac", password : "111", role : "USER"},
+    {username : "aaa", password : "111", role : "USER"},
+    {username : "bbb", password : "111", role : "USER"},
+    {username : "ccc", password : "111", role : "USER"},
 ]
 
 // 현재는 로컬이긴 하지만 나중을 위해 path라는 변수 사용
@@ -67,13 +67,22 @@ const getList = async () => {
     return fetch( path+"/mem" , {method:"get"} )
 }
 const getInfo = (username) => {
-    return data_set.filter(data => data.username === username)[0]
+    // console.log("username : ", username)
+    // return data_set.filter(data => data.username === username)[0]
+    return fetch( path+"/mem/"+username)
 }
 const deleteUser = (username) => {
-    data_set = data_set.filter(data => data.username !== username)
+    // data_set = data_set.filter(data => data.username !== username)
+    return fetch( path+"/mem/"+username, {method:"delete"} )
 }
 const modify = (userData) => {
-    data_set = data_set.filter(data => data.username!== userData.username)
-    data_set = data_set.concat(userData);
+    // data_set = data_set.filter(data => data.username!== userData.username)
+    // data_set = data_set.concat(userData);
+    return fetch( path+"/mem/"+userData.username, {
+        method:"put",
+        headers:{"Content-Type":"application/json"},
+        // 문자열로 병합하기 위해 JSON사용
+        body:JSON.stringify(userData)
+    })
 }
 export { login, register, getList, getInfo, deleteUser, modify };

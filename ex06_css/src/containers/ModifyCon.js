@@ -9,8 +9,21 @@ function ModifyCon() {
     const {username} = useParams();
     const [state, dispatch] = useReducer(reducer, initialState);
     useEffect(() => {
-        const data = getInfo(username)
-        dispatch({type:"MODIFY", data})
+        // const data = getInfo(username)
+        // dispatch({type:"MODIFY", data})
+
+        // const getOne = () => {}
+        // getOne();
+
+        // 백엔드에 있는 내용을 수정폼에 그대로 가져옴
+        // formData 자체를 가져오는게 아니라 그 안의 키-밸류를 가져오는 것
+        async function getOne() {
+            const res = await getInfo(username)
+            const data = await res.json();
+            dispatch({type:"MODIFY", data})
+        }
+        getOne();
+
     }, [username])
     // console.log("MODIFY : ", state)
     const onChange = (e) => {
@@ -18,15 +31,22 @@ function ModifyCon() {
         dispatch({type:"CHANGE_INPUT", name, value, form: "modify"})
     }
     const navigate = useNavigate();
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        console.log("modify submit : ", state.modify)
-        console.log("modify e.target : ", e.target)
+        // console.log("modify submit : ", state.modify)
+        // console.log("modify e.target : ", e.target)
         const formData = new FormData(e.target);
         const userData = Object.fromEntries(formData.entries())
-        console.log("userData : ", userData);
-        modify(userData)
-        navigate("/info/"+username)
+        // console.log("userData : ", userData);
+
+        const res = await modify(userData)
+        if(res.ok)
+            navigate("/info/"+username)
+        else
+            alert(await res.text())
+
+        // modify(userData)
+        // navigate("/info/"+username)
     }
     return(
     <>

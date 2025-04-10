@@ -19,11 +19,11 @@ function InfoCom({data, onDelete, onModifyForm}) {
                 <ProductTitle>개 인 정 보</ProductTitle>
                 <InfoWrap>
                 {data && <>
-                username<br />- {data.username}<hr />
-                password<br />- {data.password}<hr />
-                role<br />- {data.role}<hr />
-                <StyleButton $background={["200, 36, 0", 0.7]} onClick={onModifyForm}>수정</StyleButton>
-                <StyleButton $background={["200, 36, 0", 0.7]} onClick={() => onDelete(data.username)}>삭제</StyleButton>
+                    username<br />- {data.username}<hr />
+                    password<br />- {data.password}<hr />
+                    role<br />- {data.role}<hr />
+                    <StyleButton $background={["8, 79, 183", 0.7]} onClick={onModifyForm}>수정</StyleButton>
+                    <StyleButton $background={["200, 36, 0", 0.7]} onClick={() => onDelete(data.username)}>삭제</StyleButton>
                 </>}
                 </InfoWrap>
             </StyleContentWrap>

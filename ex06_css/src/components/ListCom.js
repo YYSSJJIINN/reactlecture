@@ -69,20 +69,6 @@ function ListCom({data, onInfo}) {
                 <span>{d.role}</span>
             </DivContent>)}
         </DivWrap>
-        {/* <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>아이디</th>
-                    <th>비밀번호</th>
-                    <th>ROLE</th>
-                </tr>
-            </thead>
-            <tbody>
-                룰루랄라
-            </tbody>
-        </table>
-        </div> */}
         </StyleContentWrap>
     </StyleContentBlock>
     </>);
