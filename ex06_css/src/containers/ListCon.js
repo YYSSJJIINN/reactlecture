@@ -1,6 +1,6 @@
 import HeaderCom from "../components/common/HeaderCom";
 import ListCom from "../components/ListCom";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { reducer, initialState } from "../modules/authModule.js";
 import { getList } from "../service/authService.js"
 import { useContext } from "react";
@@ -10,6 +10,11 @@ import { useNavigate } from "react-router-dom";
 function ListCon() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const {auth} = useContext(AuthContext)
+    // start라고 적힌 부분은 모두 페이징 부분 추가한 것.
+    const [start, setStart] = useState(1);
+    const onClick = (start) => {
+        setStart(start);
+    }
     const navigate = useNavigate();
     const onInfo = ( username ) => {
         if(auth.isLoggedIn) {
@@ -40,17 +45,18 @@ function ListCon() {
         // hook 안에 있는 함수이지, hook인 함수가 아니므로 async사용가능하다
         async function get() {
             // 비동기함수
-            const res = await getList();
+            const res = await getList(start);
             const data = await res.json();
             // console.log("res : ", res)
             dispatch({type:"LIST", data})
         }
         get();
-    },[] )
+    // 해당하는 번호가 바뀔때마다(클릭할 때마다) 반복하겠다
+    },[start] )
     return(
     <>
         <HeaderCom />
-        <ListCom data={state.data} onInfo={onInfo} />
+        <ListCom data={state.data} onInfo={onInfo} onClick={onClick} />
     </>);
 }
 export default ListCon;

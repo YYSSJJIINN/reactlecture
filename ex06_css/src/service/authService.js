@@ -43,7 +43,9 @@ const register = (user) => {
     })
 }
 
-const getList = async () => {
+const getList = async (start) => {
+    console.log("start : ", start)
+
     // 기본이 get방식이라 굳이 작성하지 않아도 되긴함.
     // 비동기로 동작하는 함수 fetch( path+"/mem", {method:"get"})의 결과가 도달할 때 까지
     // 기다리겠다는 의미로 await를 붙인다. await은 부모함수에 async가 있어야 사용가능하다.
@@ -64,7 +66,7 @@ const getList = async () => {
     // })
 
     // return data_set;
-    return fetch( path+"/mem" , {method:"get"} )
+    return fetch( path+"/mem?start=" + start , {method:"get"} )
 }
 const getInfo = (username) => {
     // console.log("username : ", username)

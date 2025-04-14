@@ -46,10 +46,32 @@ const DivContent = styled.div`
     border-bottom : 1px solid gray;
     padding : 15px;
 `;
+// 페이지 버튼들이 모인 구역
+const DivPage = styled.div`
+    margin-top : 20px;
+    text-align : center;
+`;
+// 페이지 버튼 낱개들
+const SpanPage = styled.span`
+    width : 30px;
+    display : inline-block;
+    cursor : pointer;
+`;
 
 // 내용들이 {data}에 배열형식으로 들어오므로 반복시켜주면 된다.
-function ListCom({data, onInfo}) {
+function ListCom({data, onInfo, onClick}) {
     console.log("com data : ", data)
+    console.log("list com data : ", data)
+
+    // 배열 형식으로 추가
+    let number = []
+    if( data !== null ) {
+        // let i = 1;
+        for(let i = 1; i <= data.totalPages; i++) {
+            number.push(<SpanPage key={i} onClick={ () => onClick(i) }>{i}</SpanPage>)
+        }
+        number.push(<b key={data.totalPages + 1}>( {data.currentPage}/{data.totalPages} )</b>)
+    }
     // {data && data.map ((d, i) =><DivContent key={i}>라고 해도 되는데 
     // 이런 경우에는 리스트에 변화가 거의 없고 고유값이 없는 경우만 권장된다.
     return(
@@ -61,13 +83,14 @@ function ListCom({data, onInfo}) {
             <DivContent>
                 <b>아이디</b><b>비밀번호</b><b>ROLE</b>
             </DivContent>
-            {data && data.map (d => 
+            {data && data.list.map (d => 
             <DivContent key={d.username}>
                 <span style={{cursor : "pointer"}} 
                     onClick={ () => onInfo(d.username) }>{d.username}</span>
                 <span>{d.password}</span>
                 <span>{d.role}</span>
             </DivContent>)}
+            <DivPage>{number}</DivPage>
         </DivWrap>
         </StyleContentWrap>
     </StyleContentBlock>
