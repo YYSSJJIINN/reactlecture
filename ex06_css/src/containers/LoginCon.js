@@ -26,10 +26,12 @@ function LoginCon() {
         // 백엔드와 연결하며 async를 사용했으므로 await도 붙여준다.
         const res = await login(state.login.username, state.login.password);
         // const result = login(state.login.username, state.login.password);
-        console.log("login res : ", res)
+        // console.log("login res : ", await res.json())
         if( res.ok ) {
+            const data = await res.json();
+            console.log("data : ", data)
+            loginProvider(state.login.username, data.token);
             navigate("/")
-            loginProvider(state.login.username);
         } else {
             dispatch({type : "INITIALSTATE"});
         }

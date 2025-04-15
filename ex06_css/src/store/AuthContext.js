@@ -7,12 +7,13 @@ const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState(
         JSON.parse(sessionStorage.getItem("auth")) || initialState);
     // 로그인 성공시 Provider 호출
-    const loginProvider = (username) => {
+    const loginProvider = (username, token) => {
         setAuth({isLoggedIn : true, username})
         // 로그인 풀리지 않게 스토리지 세션을 이용한다.
         // 바로 문자열 사용할 수 없으므로, JSON사용한다.
         // auth를 이용해서 isLoggedIn이 true인지 false인지 확인
         sessionStorage.setItem("auth", JSON.stringify({isLoggedIn : true, username}))
+        sessionStorage.setItem("token", token)
     }
     const logoutProvider = () => {
         setAuth(initialState);

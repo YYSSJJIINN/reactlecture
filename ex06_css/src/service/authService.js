@@ -38,8 +38,11 @@ const register = (user) => {
     // fetch는 비동기방식
     return fetch(path+"/mem", {
         method:"post", 
-        headers:{"Content-Type":"application/json"}, 
-        body:JSON.stringify(user)
+        // headers:{"Content-Type":"application/json"}, 
+        // body:JSON.stringify(user)
+
+        // 파일등록으로 추가된 코드
+        body:user
     })
 }
 
@@ -68,23 +71,42 @@ const getList = async (start) => {
     // return data_set;
     return fetch( path+"/mem?start=" + start , {method:"get"} )
 }
-const getInfo = (username) => {
+const getInfo = (username, token) => {
     // console.log("username : ", username)
     // return data_set.filter(data => data.username === username)[0]
-    return fetch( path+"/mem/"+username)
+
+    // return fetch( path+"/mem/"+username)
+
+    return fetch( path+"/mem/"+username, {
+        method:"get",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization": `Bearer ${token}`
+        }})
 }
-const deleteUser = (username) => {
+const deleteUser = (username, token, fileName) => {
     // data_set = data_set.filter(data => data.username !== username)
-    return fetch( path+"/mem/"+username, {method:"delete"} )
+    return fetch( path+"/mem/"+username, {
+        method:"delete", 
+        headers:{"Authorization": `Bearer ${token}`},
+        // 백엔드의 controller에서 @RequestBody String fileName 해줘야한다.
+        body:fileName
+    } )
 }
-const modify = (userData) => {
+const modify = (userData, token) => {
     // data_set = data_set.filter(data => data.username!== userData.username)
     // data_set = data_set.concat(userData);
+    console.log("userData.username",userData.username)
     return fetch( path+"/mem/"+userData.username, {
         method:"put",
-        headers:{"Content-Type":"application/json"},
+        headers:{"Content-Type":"application/json",
+            "Authorization": `Bearer ${token}`
+        },
         // 문자열로 병합하기 위해 JSON사용
         body:JSON.stringify(userData)
     })
 }
-export { login, register, getList, getInfo, deleteUser, modify };
+const getImage = (fileName) => {
+    return fetch( path+`/mem/${fileName}/image`)
+}
+export { login, register, getList, getInfo, deleteUser, modify, getImage };

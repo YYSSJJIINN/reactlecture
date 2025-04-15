@@ -11,7 +11,7 @@ const InfoWrap = styled.div`
     padding : 20px;
     border-radius : 5px;
 `;
-function InfoCom({data, onDelete, onModifyForm}) {
+function InfoCom({data, onDelete, onModifyForm, imageUrl}) {
     return(
     <>
         <StyleContentBlock>
@@ -19,6 +19,7 @@ function InfoCom({data, onDelete, onModifyForm}) {
                 <ProductTitle>개 인 정 보</ProductTitle>
                 <InfoWrap>
                 {data && <>
+                    <img src={imageUrl} width="100px" height="100px" alt="User Profile" /><hr />
                     username<br />- {data.username}<hr />
                     password<br />- {data.password}<hr />
                     role<br />- {data.role}<hr />
