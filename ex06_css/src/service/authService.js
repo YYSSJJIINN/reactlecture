@@ -5,7 +5,9 @@ let data_set = [
 ]
 
 // 현재는 로컬이긴 하지만 나중을 위해 path라는 변수 사용
-const path ="http://localhost:8080";
+// const path ="http://localhost:8080";
+// 로드밸런서의 DNS이름
+const path = "http://web-alb-15974641.ap-northeast-2.elb.amazonaws.com";
 
 const login = (username, password) => {
     // const result = data_set.filter(data => data.username === username);

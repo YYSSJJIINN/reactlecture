@@ -14,6 +14,7 @@ function ModifyCom({username, password, role, onChange, onSubmit}) {
                     <StyleInput name="username" value={username} readOnly />
                     <StyleInput name="password" value={password} onChange={onChange} />
                     <StyleInput name="role" value={role} onChange={onChange} />
+                    <input type="file" name="file" onChange={onChange} />
                     <StyleButton>수정</StyleButton>
                 </StyleForm>
             </StyleContentWrap>
