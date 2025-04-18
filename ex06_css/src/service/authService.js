@@ -5,9 +5,9 @@ let data_set = [
 ]
 
 // 현재는 로컬이긴 하지만 나중을 위해 path라는 변수 사용
-// const path ="http://localhost:8080";
+const path ="http://localhost:8080";
 // 로드밸런서의 DNS이름
-const path = "http://web-alb-15974641.ap-northeast-2.elb.amazonaws.com";
+// const path = "http://web-alb-15974641.ap-northeast-2.elb.amazonaws.com";
 
 const login = (username, password) => {
     // const result = data_set.filter(data => data.username === username);
@@ -95,17 +95,20 @@ const deleteUser = (username, token, fileName) => {
         body:fileName
     } )
 }
-const modify = (userData, token) => {
+// 파일 변경을 위해 userData를 formData로 변경
+const modify = (formData, token) => {
     // data_set = data_set.filter(data => data.username!== userData.username)
     // data_set = data_set.concat(userData);
-    console.log("userData.username",userData.username)
-    return fetch( path+"/mem/"+userData.username, {
+    console.log("userData.username",formData.username)
+    return fetch( path+"/mem/"+formData.username, {
         method:"put",
-        headers:{"Content-Type":"application/json",
+        headers:{
+            "Content-Type":"application/json",
             "Authorization": `Bearer ${token}`
         },
         // 문자열로 병합하기 위해 JSON사용
-        body:JSON.stringify(userData)
+        body:JSON.stringify(formData)
+        // body:formData
     })
 }
 const getImage = (fileName) => {
