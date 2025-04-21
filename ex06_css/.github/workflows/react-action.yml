@@ -1,0 +1,48 @@
+name: React-Test
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    # github 저장소 연동 작업
+    # 깃허브에서 제공하는 코드를 사용할 때는 이걸 사용해달라는 뜻이다
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name : 인스톨 전 ls 목록 확인
+        run : ls
+      
+    # 디펜던시(node_modules)는 무겁기 때문에 푸시할 때 깃에서 배제한다고 했는데 그걸 설치하는 코드다.
+    # 다른 컴퓨터에서 깃에서 다운 받을 시 yarn install을 입력해야 설치되기 때문이다.
+    # --frozen-lockfile는 yarn.lock파일에 명시된 버전으로 설치된다는 뜻이다.
+    # node_modules 삭제 시 yarn install 입력후에야 yarn start를 입력해야한다.
+      - name: Install Dependencies
+        run : yarn install --frozen-lockfile
+
+      - name : 인스톨 후 ls 목록 확인
+        run : ls
+        
+    # 이걸 지정 안하면 에러가 뜬다.
+    # 사용 안하는 import파일들에 의해 에러가 뜨는 것을 막고 그냥 성공처리한다.
+      - name : Build
+        run : CI=false yarn run build
+
+      - name : 빌드 후 ls 목록 확인
+        run : ls
+
+    # S3 자격증명 설정
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.REACT_ACC_KEY }}
+          aws-secret-access-key: ${{ secrets.REACT_SEC_KEY }}
+          aws-region: ${{ secrets.REACT_REGION }}
+
+      # --recursive : ./build 안의 모든 내용 복사
+      # 옵션 사용하지 않으면 기본 build 폴더 하나만 의미. 하위값 적용 안됨
+      # AWS의 S3에 cp(카피)하겠다
+      - name : Upload to S3
+        run : aws s3 cp ./build s3://${{secrets.REACT_BUCKET_NAME}} --recursive
