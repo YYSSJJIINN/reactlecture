@@ -1,3 +1,5 @@
+import axios from "axios";
+
 let data_set = [
     {username : "aaa", password : "111", role : "USER"},
     {username : "bbb", password : "111", role : "USER"},
@@ -5,9 +7,9 @@ let data_set = [
 ]
 
 // 현재는 로컬이긴 하지만 나중을 위해 path라는 변수 사용
-const path ="http://localhost:8080";
+// const path ="http://localhost:8080";
 // 로드밸런서의 DNS이름
-// const path = "http://web-alb-15974641.ap-northeast-2.elb.amazonaws.com";
+const path = "http://web-alb-15974641.ap-northeast-2.elb.amazonaws.com";
 
 const login = (username, password) => {
     // const result = data_set.filter(data => data.username === username);
@@ -96,22 +98,44 @@ const deleteUser = (username, token, fileName) => {
     } )
 }
 // 파일 변경을 위해 userData를 formData로 변경
-const modify = (formData, token) => {
-    // data_set = data_set.filter(data => data.username!== userData.username)
-    // data_set = data_set.concat(userData);
-    console.log("userData.username",formData.username)
-    return fetch( path+"/mem/"+formData.username, {
-        method:"put",
-        headers:{
-            "Content-Type":"application/json",
-            "Authorization": `Bearer ${token}`
+// const modify = (formData, token, username) => {
+//     // data_set = data_set.filter(data => data.username!== userData.username)
+//     // data_set = data_set.concat(userData);
+//     console.log("userData.username",formData.username)
+//     return fetch(`${path}/mem/${username}`, {
+//         method:"put",
+//         headers:{
+//             // "Content-Type":"application/json",
+//             "Authorization": `Bearer ${token}`
+//         },
+//         // 문자열로 병합하기 위해 JSON사용
+//         // body:JSON.stringify(formData)
+//         body:formData
+//     })
+// }
+const modify = async (id, formData, token) => {
+    // const token = sessionStorage.getItem("token"); // 로그인 시 저장한 JWT 토큰
+    if (!token) {
+        console.error("Token does not exist in localStorage");
+        return;
+    }
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
         },
-        // 문자열로 병합하기 위해 JSON사용
-        body:JSON.stringify(formData)
-        // body:formData
-    })
-}
+    };
+    try {
+        const response = await axios.put(`http://localhost:8080/mem/${id}`, formData, config);
+        console.log("Modify Success:", response.data);
+        return response;
+    } catch (error) {
+        console.error("Modify Failed", error.response?.data || error.message);
+        throw error;
+    }
+};
 const getImage = (fileName) => {
     return fetch( path+`/mem/${fileName}/image`)
 }
+
 export { login, register, getList, getInfo, deleteUser, modify, getImage };

@@ -29,24 +29,42 @@ function ModifyCon() {
     }, [username, token])
     // console.log("MODIFY : ", state)
     const onChange = (e) => {
-        const {name, value} = e.target;
-        dispatch({type:"CHANGE_INPUT", name, value, form: "modify"})
+        const {name, value, files} = e.target;
+        if (name === "file") {
+            dispatch({ type: "CHANGE_INPUT", name, value: files[0], form: "modify" })
+        } else {
+            dispatch({type:"CHANGE_INPUT", name, value, form: "modify"})
+        }
     }
     const navigate = useNavigate();
     const onSubmit = async (e) => {
         e.preventDefault();
         // console.log("modify submit : ", state.modify)
         // console.log("modify e.target : ", e.target)
+
+        // 이거만 있으면 아래 두줄 append는 필요 없음. 있으면 오히려 중복된다.
         const formData = new FormData(e.target);
-        const userData = Object.fromEntries(formData.entries())
+        // const formData = new FormData();
+        // formData.append("password", state.modify.password);
+        // formData.append("role", state.modify.role);
+        if (state.modify.file) {
+            formData.append("file", state.modify.file); // 파일이 있을 때만 첨부
+        }
+        // const userData = Object.fromEntries(formData.entries())
         // console.log("userData : ", userData);
 
-        const res = await modify(userData, token)
-        if(res.ok)
+        try {
+        // const res = await modify(userData, token)
+        const res = await modify(username, formData, token)
+        if(res.status === 200)
             navigate("/info/"+username)
         else
-            alert(await res.text())
-
+            // alert(await res.text())
+            alert("수정에 실패했습니다.")
+        } catch (err) {
+            console.error("에러 발생:", err);
+            alert("에러: " + (err.response?.data || err.message));
+        }
         // modify(userData)
         // navigate("/info/"+username)
     }
